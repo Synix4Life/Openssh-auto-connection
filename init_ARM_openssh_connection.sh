@@ -1,14 +1,36 @@
 #!/bin/bash
 
+display_help() {
+	echo
+	echo "Usage: $(basename "$0") [options] [argument]"
+	echo
+	echo "Arguments:"
+	echo "  username            Username for the SSH- connection"
+	echo
+	echo "Options:"
+	echo "  --help              Display this help message"
+	echo "  --v/ --version      Display the version"
+	echo
+	exit 0
+}
+display_version() {
+	echo "$(basename "$0") on version 1.0.2"
+	exit 0
+}
+
 if [ "$#" -ne 1 ]; then
 	echo -e "\nExpected one argument"
 	echo -e "\nUsage: ./openssh.sh username!\n"
 	exit 1
 fi
 
-username=$1
+if [ "$1" = "--help" ]; then
+	display_help
+elif [ "$1" = "--v" -o "$1" = "--version" ]; then
+	display_version
+fi
 
-ssh -V
+username=$1
 
 echo "Already initalized the connection?[y/n]"
 

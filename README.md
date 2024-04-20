@@ -1,6 +1,6 @@
 # SSH- Server connection automation
 
-![Version](https://img.shields.io/badge/Version-1.0.1-black?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-1.0.2-black?style=for-the-badge)
 ![Language](https://img.shields.io/badge/Bash_Script-black?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)
 
