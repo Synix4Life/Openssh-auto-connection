@@ -9,21 +9,21 @@ display_help() {
 	echo "	SSH-link"
 	echo
 	echo "Arguments:"
-	echo "  -u username			Username for the SSH-connection"
-	echo "	-l SSH-link			Link to connect to the SSH- Server"
+	echo "	-u username		Username for the SSH-connection"
+	echo "	-l SSH-link		Link to connect to the SSH- Server"
 	echo "	-ppk ppk-File		The .ppk- file, only works with -new!"
 	echo "	-pem pem-File		The .pem- file"
-	echo "	-k					If a key is needed, set this flag"
+	echo "	-k			If a key is needed, set this flag"
 	echo
 	echo "Options:"
-	echo "  --help              Display this help message"
-	echo "  --v/ --version      Display the version"
-	echo "	-new				Initialize a new SSH-connection"
+	echo "	--help			Display this help message"
+	echo "	--v/ --version		Display the version"
+	echo "	-new			Initialize a new SSH-connection"
 	echo
 	exit 0
 }
 display_version() {
-	echo "$(basename "$0") on version 2.0.0"
+	echo "$(basename "$0") on version 2.0.1"
 	exit 0
 }
 
@@ -35,39 +35,39 @@ pem="null"
 key=0
 
 while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --help)
-            display_help
-            ;;
+	case "$1" in
+	--help)
+        	display_help
+            	;;
         --v | --version)
-			display_version
-			;;
-		-new)
-			new=1
-			;;
-		-u)
-			shift
-			username="$1"
-			;;
-		-l)
-			shift
-			link="$1"
-			;;
-		-ppk)
-			shift
-			ppk="$1"
-			;;
-		-pem)
-			shift
-			pem="$1"
-			;;
-		-k)
-			key=1
-			;;
-		*)
-            echo "Unknown argument!"
-			exit 1
-    esac
+		display_version
+		;;
+	-new)
+		new=1
+		;;
+	-u)
+		shift
+		username="$1"
+		;;
+	-l)
+		shift
+		link="$1"
+		;;
+	-ppk)
+		shift
+		ppk="$1"
+		;;
+	-pem)
+		shift
+		pem="$1"
+		;;
+	-k)
+		key=1
+		;;
+	*)
+		echo "Unknown argument!"
+		exit 1
+	esac
     shift
 done
 
@@ -104,8 +104,8 @@ if [ "$new" -eq 1 ]; then
 					# Checking if wine is already installed
 					# If not it install itself
 					if ! dpkg -s wine > /dev/null 2>&1; then
-       	    			sudo apt-get install wine
-        			fi
+       	    					sudo apt-get install wine
+        				fi
 
 					# Executing putty to generate keys
 					wine putty.exe
@@ -118,10 +118,10 @@ if [ "$new" -eq 1 ]; then
 				pem="$i.pem"
 				
 				# Checking if putty-tools is already installed
-    			# If not it installs itself
-    			if ! dpkg -s putty-tools > /dev/null 2>&1; then
-        			sudo apt-get install putty-tools
-    			fi
+    				# If not it installs itself
+    				if ! dpkg -s putty-tools > /dev/null 2>&1; then
+        				sudo apt-get install putty-tools
+    				fi
 
 				# Creating a .pem- file from the existing .ppk- file
 				puttygen "$ppk" -O private-openssh -o "$pem"
@@ -133,7 +133,7 @@ if [ "$new" -eq 1 ]; then
 
 else
 	if [ "$pem" = "null" ]; then
-	pem=$(find . -name "*.pem" -print -quit)
+		pem=$(find . -name "*.pem" -print -quit)
 		if [ "$pem" = "null" ]; then
 			echo "Couldn't find the *.pem key- file"
 			exit 1
