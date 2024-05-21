@@ -1,6 +1,6 @@
 # SSH- Server connection automation
 
-![Version](https://img.shields.io/badge/Version-2.0.1-black?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-2.1.0-black?style=for-the-badge)
 ![Language](https://img.shields.io/badge/Shell_Script_(Bash)-black?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)
 
@@ -47,6 +47,15 @@ If you haven't yet made the connection, just use the -new flag
 This flag is only for setting up the key. If all keys are already created and you just want to initialize the connection, you can remove the -new flag.
 
 Other options are the --help and --v/ --version flags to show the corresponding man- page from the program.
+
+---
+
+### Can't run script?
+
+If you can run the script, try 
+```shell
+chmod +x openssh_autoconnect.sh
+```
 
 ---
 

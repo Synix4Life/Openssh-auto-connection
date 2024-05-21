@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# ---------- FUNCTIONS ---------- #
+
 display_help() {
 	echo
 	echo "Usage: $(basename "$0") [options] [argument]"
@@ -11,14 +13,15 @@ display_help() {
 	echo "Arguments:"
 	echo "	-u username		Username for the SSH-connection"
 	echo "	-l SSH-link		Link to connect to the SSH- Server"
-	echo "	-ppk ppk-File		The .ppk- file, only works with -new!"
-	echo "	-pem pem-File		The .pem- file"
+	echo "	-ppk ppk-File		The .ppk- file, only works with -new, not compatible with -unix"
+	echo "	-pem pem-File		The .pem- file, not compatible with -unix"
+	echo "	-unix			For unix only connection, default is Windows- Unix combined"
 	echo "	-k			If a key is needed, set this flag"
 	echo
 	echo "Options:"
 	echo "	--help			Display this help message"
 	echo "	--v/ --version		Display the version"
-	echo "	-new			Initialize a new SSH-connection"
+	echo "	-new			Initialize a new SSH-connection, not compatible with -unix"
 	echo
 	exit 0
 }
@@ -27,12 +30,17 @@ display_version() {
 	exit 0
 }
 
+# ---------- VARIABLES ---------- #
+
 new=0
 username="null"
 link="null"
 ppk="null"
 pem="null"
+unix=0
 key=0
+
+# ---------- ARGUMENT PROCESSING ---------- #
 
 while [[ $# -gt 0 ]]; do
 	case "$1" in
@@ -64,12 +72,17 @@ while [[ $# -gt 0 ]]; do
 	-k)
 		key=1
 		;;
+	-unix)
+		unix=1
+		;;
 	*)
 		echo "Unknown argument!"
 		exit 1
 	esac
     shift
 done
+
+# ---------- PROGRAM ---------- #
 
 if [ "$link" = "null" -o "$username" = "null" ]; then
 	echo "Username and link required!"
@@ -80,7 +93,7 @@ if [ "$key" -eq 0 ]; then
 	ssh "$username"@"$link"
 fi
 
-if [ "$new" -eq 1 ]; then
+if [ "$new" -eq 1 -a "$unix" -eq 0 ]; then
 
 	# Checking if openssh-client is already installed
 	# If not it installs itself
@@ -98,8 +111,7 @@ if [ "$new" -eq 1 ]; then
 				ppk=$(find . -name "*.ppk" -print -quit)
 				if [ "$ppk" = "null" ]; then
 					echo "Couldn't find a *.ppk- File"
-					echo "Please install putty from the official website, then continue"
-					read pass
+					read -p "Please install putty from the official website, then continue" pass
 
 					# Checking if wine is already installed
 					# If not it install itself
@@ -113,8 +125,7 @@ if [ "$new" -eq 1 ]; then
 					ppk=$(find . -name "*.ppk" -print -quit)
 				fi
 				# Asking about the file- name
-				echo "Under which name shall the new Key- File be stored?"
-				read i
+				read -p "Under which name shall the new Key- File be stored?" i
 				pem="$i.pem"
 				
 				# Checking if putty-tools is already installed
@@ -132,7 +143,9 @@ if [ "$new" -eq 1 ]; then
 	chmod 600 "$pem"
 
 else
-	if [ "$pem" = "null" ]; then
+	if [ "$unix" -eq 1 ]; then
+		read -p "Please enter path to SSH-key, including the key" pem
+	elif [ "$pem" = "null" ]; then
 		pem=$(find . -name "*.pem" -print -quit)
 		if [ "$pem" = "null" ]; then
 			echo "Couldn't find the *.pem key- file"
