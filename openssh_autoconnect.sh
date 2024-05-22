@@ -15,7 +15,7 @@ display_help() {
 	echo "	-l SSH-link		Link to connect to the SSH- Server"
 	echo "	-ppk ppk-File		The .ppk- file, only works with -new, not compatible with -unix"
 	echo "	-pem pem-File		The .pem- file, not compatible with -unix"
-	echo "	-unixkey UnixKey	The unix key path"
+	echo "	-unixkey UnixKey	The unix key path, by default set to ~/.ssh/id_rsa"
 	echo "	-unix			For unix only connection, default is Windows- Unix combined"
 	echo "	-k			If a key is needed, set this flag"
 	echo
@@ -27,7 +27,7 @@ display_help() {
 	exit 0
 }
 display_version() {
-	echo "$(basename "$0") on version 2.2.0"
+	echo "$(basename "$0") on version 2.2.1"
 	exit 0
 }
 
@@ -153,7 +153,7 @@ if [ "$new" -eq 1 ]; then
 else
 	if [ "$unix" -eq 1 ]; then
 		if [ "$pem"  = "null" ]; then
-			read -p "Please enter path to SSH-key, including the key" pem
+			pem=~/.ssh/id_rsa
 		fi
 	elif [ "$pem" = "null" ]; then
 		pem=$(find . -name "*.pem" -print -quit)

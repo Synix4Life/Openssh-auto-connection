@@ -24,3 +24,6 @@ Version 2.0.0:
 	Version 2.2.0.:
 		- Added keygen and changed the overall structure a bit
 		- Small fixes
+	
+		Version 2.2.1:
+			- Added ~/.ssh/id_rsa as default key for unix- only
