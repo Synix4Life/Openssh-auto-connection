@@ -20,3 +20,7 @@ Version 2.0.0:
 		- Added Windows flag, Linux/ Mac only
 		- Changed from "echo" -> "read" to "read -p" in the program
 		-> Going to be tested in 2.1.1!!!
+
+	Version 2.2.0.:
+		- Added keygen and changed the overall structure a bit
+		- Small fixes

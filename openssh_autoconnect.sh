@@ -15,18 +15,19 @@ display_help() {
 	echo "	-l SSH-link		Link to connect to the SSH- Server"
 	echo "	-ppk ppk-File		The .ppk- file, only works with -new, not compatible with -unix"
 	echo "	-pem pem-File		The .pem- file, not compatible with -unix"
+	echo "	-unixkey UnixKey	The unix key path"
 	echo "	-unix			For unix only connection, default is Windows- Unix combined"
 	echo "	-k			If a key is needed, set this flag"
 	echo
 	echo "Options:"
 	echo "	--help			Display this help message"
 	echo "	--v/ --version		Display the version"
-	echo "	-new			Initialize a new SSH-connection, not compatible with -unix"
+	echo "	-new			Initialize a new SSH-connection, is made for generating keys. If you don't need a key, you can ignore this"
 	echo
 	exit 0
 }
 display_version() {
-	echo "$(basename "$0") on version 2.0.1"
+	echo "$(basename "$0") on version 2.2.0"
 	exit 0
 }
 
@@ -75,6 +76,10 @@ while [[ $# -gt 0 ]]; do
 	-unix)
 		unix=1
 		;;
+	-unixkey)
+		shift
+		pem="$1"
+		;;
 	*)
 		echo "Unknown argument!"
 		exit 1
@@ -89,20 +94,20 @@ if [ "$link" = "null" -o "$username" = "null" ]; then
 	exit 1
 fi
 
+# Checking if openssh-client is already installed
+# If not it installs itself
+if ! dpkg -s openssh-client > /dev/null 2>&1; then
+    sudo apt-get install openssh-client
+fi
+
 if [ "$key" -eq 0 ]; then
 	ssh "$username"@"$link"
 fi
 
-if [ "$new" -eq 1 -a "$unix" -eq 0 ]; then
-
-	# Checking if openssh-client is already installed
-	# If not it installs itself
-	if ! dpkg -s openssh-client > /dev/null 2>&1; then
-	    sudo apt-get install openssh-client
-	fi
+if [ "$new" -eq 1 ]; then
 
 	# Checking .ppk and .pem privateKey and if not available, get one
-	if [ "$pem" = "null"]; then
+	if [ "$pem" = "null" -a "$unix" -eq 0 ]; then
 		# Check for pem- file
 		pem=$(find . -name "*.pem" -print -quit)
 		if [ "$pem" = "null" ]; then
@@ -138,13 +143,18 @@ if [ "$new" -eq 1 -a "$unix" -eq 0 ]; then
 				puttygen "$ppk" -O private-openssh -o "$pem"
 			fi
 		fi
+	elif [ "$unix" -eq 1 ]; then
+		ssh-keygen
+		read -p "Please enter path to SSH- key, including the key" pem
 	fi
 
 	chmod 600 "$pem"
 
 else
 	if [ "$unix" -eq 1 ]; then
-		read -p "Please enter path to SSH-key, including the key" pem
+		if [ "$pem"  = "null" ]; then
+			read -p "Please enter path to SSH-key, including the key" pem
+		fi
 	elif [ "$pem" = "null" ]; then
 		pem=$(find . -name "*.pem" -print -quit)
 		if [ "$pem" = "null" ]; then
