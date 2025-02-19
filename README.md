@@ -1,6 +1,6 @@
 # SSH- Server connection automation
 
-![Version](https://img.shields.io/badge/Version-2.2.1-black?style=for-the-badge)
+![Version](https://img.shields.io/badge/Version-2.2.2-black?style=for-the-badge)
 ![Language](https://img.shields.io/badge/Shell_Script_(Bash)-black?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)
 
@@ -79,3 +79,30 @@ chmod +x openssh_autoconnect.sh
 ## Further Information
 
 If you have any questions or ideas to improve the script, feel free to change them or contact me about it
+
+
+### Changelog
+
+- $\textsf{\color{darkkhaki}Version 1.0.0}$:
+  - Initial Upload
+      - $\textsf{\color{darkkhaki}Version 1.0.1}$:
+	    - Improved README.md
+	  - $\textsf{\color{darkkhaki}Version 1.0.2}$:
+		- Added --help and --v/ --version
+- $\textsf{\color{darkkhaki}Version 2.0.0}$:
+  - Enhanced flag- support, to improve the automation
+  - Added Explanations in the README.md file
+  - File named changed from init_ARM_openssh_connection.sh to openssh_autoconnect.sh
+    - $\textsf{\color{darkkhaki}Version 2.0.1}$:
+	  - Fixed incorrect spacing
+	  - Added Versions.txt
+  - $\textsf{\color{darkkhaki}Version 2.1.0}$:
+    - Added Windows flag, Linux/ Mac only
+    - Changed from "echo" -> "read" to "read -p" in the program
+  - $\textsf{\color{darkkhaki}Version 2.2.0.}$:
+    - Added keygen and changed the overall structure a bit
+	  - Small fixes
+    - $\textsf{\color{darkkhaki}Version 2.2.1}$:
+	    - Added ~/.ssh/id_rsa as default key for unix- only
+    - $\textsf{\color{darkkhaki}Version 2.2.2}$:
+	    - Moved Changelog to README
